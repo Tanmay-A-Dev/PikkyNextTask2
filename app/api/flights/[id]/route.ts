@@ -1,4 +1,3 @@
-// app/api/flights/route.ts
 import { NextResponse } from 'next/server';
 import { connectToDatabase } from '../../../../lib/mongodb';
 import Flight from '../../../../models/Flight';

@@ -31,7 +31,6 @@ const AddFlightForm = () => {
 
             if (response.ok) {
                 alert('Flight added successfully!');
-                // Optionally, reset form fields
                 setFlightNumber('');
                 setOrigin('');
                 setDestination('');

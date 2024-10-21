@@ -1,4 +1,3 @@
-// models/Flight.ts
 import mongoose, { Schema, Document } from 'mongoose';
 
 interface IFlight extends Document {

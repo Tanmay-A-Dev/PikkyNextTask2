@@ -11,9 +11,10 @@ interface Flight {
 
 interface DashboardProps {
     flights: Flight[];
+    reloadFlights: () => void; // Add this prop to trigger a reload from parent component
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ flights }) => {
+const Dashboard: React.FC<DashboardProps> = ({ flights, reloadFlights }) => {
     const updateFlightStatus = async (flightId: string, newStatus: Flight['status']) => {
         const confirmed = window.confirm(`Are you sure you want to update the status to "${newStatus}"?`);
         if (confirmed) {
@@ -30,8 +31,8 @@ const Dashboard: React.FC<DashboardProps> = ({ flights }) => {
                     throw new Error('Failed to update flight status');
                 }
 
-                const updatedFlight = await response.json();
-              
+                // Refresh the flight list after a successful update
+                reloadFlights();
             } catch (error) {
                 console.error('Error updating flight status:', error);
             }
@@ -51,7 +52,7 @@ const Dashboard: React.FC<DashboardProps> = ({ flights }) => {
                             <th className="p-2 md:p-4 text-left">Destination</th>
                             <th className="p-2 md:p-4 text-left">Scheduled Departure</th>
                             <th className="p-2 md:p-4 text-left">Status</th>
-                            <th className="p-2 md:p-4 text-left">Actions</th> {/* New Actions Column */}
+                            <th className="p-2 md:p-4 text-left">Actions</th>
                         </tr>
                     </thead>
                     <tbody className="block md:table-row-group">
@@ -65,7 +66,6 @@ const Dashboard: React.FC<DashboardProps> = ({ flights }) => {
                                 </td>
                                 <td className="p-2 md:p-4">{flight.status}</td>
                                 <td className="p-2 md:p-4">
-                                    {/* Status Update Buttons */}
                                     <button
                                         onClick={() => updateFlightStatus(flight._id, 'Delayed')}
                                         className="text-blue-500 hover:underline"
